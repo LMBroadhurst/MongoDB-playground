@@ -1,0 +1,6 @@
+- Massive arrays
+- Large no of collections
+- bloated documents
+- unneccessary indexes
+- queries with indexes
+- Data accessed together but stored in different collections
