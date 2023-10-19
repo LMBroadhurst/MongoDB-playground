@@ -1,19 +1,10 @@
-```
-    db.books.replaceOne(
-        { _id: ObjectId("fndf...")},
-        {
-            title: "...",
-            ...
-        }
-    )
-```
-
-Replacing a Document in MongoDB
+## Replacing a Document in MongoDB
 To replace documents in MongoDB, we use the replaceOne() method. The replaceOne() method takes the following parameters:
 
-filter: A query that matches the document to replace.
-replacement: The new document to replace the old one with.
-options: An object that specifies options for the update.
+#### filter: A query that matches the document to replace.
+#### replacement: The new document to replace the old one with.
+#### options: An object that specifies options for the update.
+
 In the previous video, we use the _id field to filter the document. In our replacement document, we provide the entire document that should be inserted in its place. Here's the example code from the video:
 
 db.books.replaceOne(
@@ -32,10 +23,10 @@ db.books.replaceOne(
 )
 
 
-Updating MongoDB Documents by Using updateOne()
+## Updating MongoDB Documents by Using updateOne()
 The updateOne() method accepts a filter document, an update document, and an optional options object. MongoDB provides update operators and options to help you update documents. In this section, we'll cover three of them: $set, upsert, and $push.
 
-$set
+#### $set
 The $set operator replaces the value of a field with the specified value, as shown in the following code:
 
 db.podcasts.updateOne(
@@ -49,7 +40,8 @@ db.podcasts.updateOne(
     },
   }
 )
-upsert
+
+## upsert
 The upsert option creates a new document if no documents match the filtered criteria. Here's an example:
 
 db.podcasts.updateOne(
@@ -57,10 +49,45 @@ db.podcasts.updateOne(
   { $set: { topics: ["databases", "MongoDB"] } },
   { upsert: true }
 )
-$push
+
+#### $push
 The $push operator adds a new value to the hosts array field. Here's an example:
 
 db.podcasts.updateOne(
   { _id: ObjectId("5e8f8f8f8f8f8f8f8f8f8f8") },
   { $push: { hosts: "Nic Raboy" } }
 )
+
+## Updating MongoDB Documents by Using findAndModify()
+The findAndModify() method is used to find and replace a single document in MongoDB. It accepts a filter document, a replacement document, and an optional options object. The following code shows an example:
+
+db.podcasts.findAndModify({
+  query: { _id: ObjectId("6261a92dfee1ff300dc80bf1") },
+  update: { $inc: { subscribers: 1 } },
+  new: true,
+})
+
+It then returns the updated document
+
+
+## Updating MongoDB Documents by Using updateMany()
+To update multiple documents, use the updateMany() method. This method accepts a filter document, an update document, and an optional options object. The following code shows an example:
+
+db.books.updateMany(
+  { publishedDate: { $lt: new Date("2019-01-01") } },
+  { $set: { status: "LEGACY" } }
+)
+
+
+## Deleting Documents in MongoDB
+To delete documents, use the deleteOne() or deleteMany() methods. Both methods accept a filter document and an options object.
+
+#### Delete One Document
+The following code shows an example of the deleteOne() method:
+
+db.podcasts.deleteOne({ _id: Objectid("6282c9862acb966e76bbf20a") })
+
+#### Delete Many Documents
+The following code shows an example of the deleteMany() method:
+
+db.podcasts.deleteMany({category: “crime”})
